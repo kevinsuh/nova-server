@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { initializePassport } from '../actions';
+import PassportForm from './passport_form';
 
 class App extends Component {
 
@@ -20,13 +21,12 @@ class App extends Component {
 	}
 
 	render() {
+		console.log(`\n ~~ passport data ~~ \n`);
 		console.log(this.props.passport);
-		const { country } = this.props.passport.data;
-
 		return (
 			<div className="app container">
-				Nova Credit Passport
-				Welcome to the passport for {country}
+				<h1 className="title">Nova Credit Passport</h1>
+				<PassportForm />
 			</div>
 		);
 	}
