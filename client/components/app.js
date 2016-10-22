@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { initializePassport } from '../actions';
 
-export default class App extends Component {
+class App extends Component {
 
 	constructor(props) {
 		super(props);
+		this.handleMessage = this.handleMessage.bind(this);
 	}
+
 	handleMessage(message) {
-		console.log(`\n\n message handled! message from nova server...`);
-		console.log(message);
-		console.log(message.data);
+		const data = JSON.parse(message.data);
+		this.props.initializePassport(data);
 	}
 
 	componentDidMount() {
-		console.log(`\n component mounted!`);
+		// this is what receives message from lender-server
 		window.addEventListener("message", this.handleMessage);
-
 	}
 
 	render() {
+		console.log(this.props.passport);
 
 		return (
 			<div className="app container">
-				hello world from react
+				Nova Credit Passport
 			</div>
 		);
 	}
 }
+
+function mapStateToProps({ passport }) {
+	return {
+		passport
+	}
+}
+
+export default connect(mapStateToProps, { initializePassport })(App);

@@ -19,56 +19,41 @@ $(document).ready(function() {
 
 	// create an iframe
 	var iframe = document.createElement('iframe');
+	$(iframe).css({
+		"display": "none",
+		"z-index": "999999",
+		"border-width": "0",
+		"overflow-x": "hidden",
+		"overflow-y": "auto",
+		"height": "100%",
+		"position": "fixed",
+		"top": "0",
+		"left": "0",
+		"right": "0",
+		"bottom": "0"
+	});
 	iframe.id = 'passport-iframe';
 	iframe.width = "100%";
 	iframe.src = "http://localhost:8080";
-	// iframe.height = "100%";
-	// iframe.style.position = "fixed";
-	// iframe.style.top = "0";
-	// iframe.style.left = "0";
-	// iframe.style.right = "0";
-	// iframe.style.bottom = "0";
-	iframe.style.display = "none";
-	iframe.style["z-index"] = "99999";
-	iframe.style["background-color"] = "blue";
-	iframe.style["border-width"] = "0";
-	iframe.style["overflow-x"] = "hidden";
-	iframe.style["overflow-y"] = "auto";
 
 	// get form information
-	var country = script.getAttribute("data-country");
-	var formId = script.getAttribute("data-form-id");
-	var form = document.getElementById(formId);
+	var country    = script.getAttribute("data-country");
+	var formId     = script.getAttribute("data-form-id");
+	var key        = script.getAttribute("data-key");
+	var clientName = script.getAttribute("data-client-name");
+	var product    = script.getAttribute("data-product");
+	var env        = script.getAttribute("data-env");
+	var form       = document.getElementById(formId);
 
 	// postMessage on 2 events:
 	// 1) on iframe load
 	// 2) on button click
 	$(iframe).on('load', function() {
-		var message = {
-			country: country,
-			key: "test-key"
-		}
-		sendMessage(message);
 		console.log(`\n\n iframe loaded!`);
 	})
 
 	// attach iframe
 	document.body.appendChild(iframe);
-
-	// iframe load
-	$('#nova-link-iframe').on('load', function() {
-		return;
-		$(this).css("display","block");
-		document.body.style.overflow="hidden";
-		document.documentElement.style.overflow = "hidden";
-		$(this)[0].contentWindow.focus();
-	});
-
-	// original document styles
-	var originalDocumentStyles= {
-		body: document.body.style.overflow,
-		html: document.documentElement.style.overflow
-	};
 
 	// create button to trigger the iframe
 	var novaSimpleButton = document.createElement("button");
@@ -78,18 +63,28 @@ $(document).ready(function() {
 		e.preventDefault();
 		// send message to open with client information
 		iframe.style.display = "block";
-		// document.style.overflow = "hidden";
-		// document.documentElement.style.overflow = "hidden";
-		// iframe[0].contentWindow.focus();
+		var message = {
+			country: country,
+			key: key,
+			clientName: clientName,
+			product: product,
+			env: env,
+			origin: origin
+		}
+		sendMessage(message);
 	});
 
 	// postMessage to nova server
-	// message is JSON obj to send
 	function sendMessage(message) {
-		console.log('message sent!');
-		console.log(message);
+		// this loads up Passport react app from Nova server
 		iframe.contentWindow.postMessage(JSON.stringify(message), "http://localhost:8080");
 	}
+
+	// original document styles
+	var originalDocumentStyles= {
+		body: document.body.style.overflow,
+		html: document.documentElement.style.overflow
+	};
 
 	var hideIframe = function() {
 		iframe.style.display = "none";
@@ -98,6 +93,7 @@ $(document).ready(function() {
 		window.parent.focus();
 	}
 
+	// hide iframe until we start with passport btn
 	hideIframe();
 	form.appendChild(novaSimpleButton);
 

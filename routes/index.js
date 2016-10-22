@@ -1,9 +1,9 @@
 var router = require('express').Router();
 var path = require('path');
 
-// Homepage/Client 
+// Main react app for Lender
 router.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname, '../', 'client', 'index.html'));
+	res.sendFile(path.join(__dirname, '../', 'client', 'index.html'));
 });
 
 module.exports = function(app) {

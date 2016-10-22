@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import PassportReducer from './passport';
 
 const reducers = combineReducers({
-  state: function() { return {} }
+  passport: PassportReducer
 });
 
 export default reducers;
