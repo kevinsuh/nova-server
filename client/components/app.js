@@ -21,10 +21,12 @@ class App extends Component {
 
 	render() {
 		console.log(this.props.passport);
+		const { country } = this.props.passport.data;
 
 		return (
 			<div className="app container">
 				Nova Credit Passport
+				Welcome to the passport for {country}
 			</div>
 		);
 	}

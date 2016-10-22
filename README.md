@@ -43,3 +43,20 @@ You can then access the app at `localhost:8080`.
 I use Sequelize as an ORM. This streamlines the process of creating our initial tables and for each query. I mainly chose to go with React, although it was not a requirement, because it is much simpler to generate dynamic HTML content that way. Otherwise, you must either generate HTML on the server-side or create lots of elements using jQuery (yuck).
 
 The React app loads up and makes an immediate load, using the passed in data, to create the customized passport form.
+
+
+
+-- things to address:
+why react and not jquery?
+	it was much easier for me to use react to handle rendering of HTML documents. i know the architecture of a react app very well and it would have actually taken longer to try to use jquery to handle the promises and generate html documents
+why did you choose those data attributes?
+	those data attributes were important because they allow me to link up with the lender's server in a secure way while using our servers to provide the country-specific content. the `data-key` is the public key issued to the lender, which allows us to associate the iframe form with their client/secret. the other data attributes allow us to generate the right form without sensitive data
+why LenderId in requests?
+	public_key is stored in the Lenders table, which we then use to identify the LenderId. this is because public-keys can change if they get compromised.
+how would your flow work for lender to actually get form data?
+	at the end of the flow, we would send over a public-token that represents the form response. the lender would take that public token, and request the actual data with its client+secret. we will then make sure their client+secret authenticate a LenderId, and that LenderId matches up with the public token to verify the return of data
+is this how you would store your form data in the requests?
+	no, because we support countless countries which means we would have countless different form elements, each unique to the different country. if this demo were to showcase more than just one country support, we would hold the form request data in a different table that maps to the CountryId of the reqeusts table
+why hold IP address?
+	this meta data lets us know where the request came from, which can help in the future to track fraud
+	found with `request.connection.remoteAddress` [stack-overflow](http://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node)
