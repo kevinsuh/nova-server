@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('./app');
 var debug = require('debug')('express-sequelize');
 var http = require('http');
