@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node index.js",
     "bundle": "webpack",
+    "postinstall": "webpack -p",
     "bundle:watch": "webpack --progress --color --watch",
     "database": "node database.js"
   },
@@ -41,7 +42,7 @@
   },
   "homepage": "https://github.com/kevinsuh/nova-server",
   "engines": {
-    "node": "0.10.11",
-    "npm": "1.2.25"
+    "node": "5.10.1",
+    "npm": "3.8.3"
   }
 }
