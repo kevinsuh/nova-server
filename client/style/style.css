@@ -1,0 +1,9 @@
+.container {
+	padding: 20px;
+	border: 1pt solid black;
+}
+
+.main-title {
+	margin: 10px 0;
+	text-align: center;
+}

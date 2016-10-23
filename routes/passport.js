@@ -9,6 +9,7 @@ var setPassportRoutes = function(router){
 		const public_key = req.query["public_key"];
 		const country    = req.query["country"];
 		const env        = req.query["env"];
+		const origin     = req.query["origin"];
 
 		if (env !== "test") {
 			return res.json({
@@ -47,7 +48,8 @@ var setPassportRoutes = function(router){
 					],
 					data: {
 						public_key: public_key,
-						CountryId: CountryId
+						CountryId: CountryId,
+						origin: origin
 					}
 				});
 

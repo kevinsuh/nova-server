@@ -42,14 +42,15 @@ class PassportForm extends Component {
 	}
 
 	render() {
-		console.log(`\n ~~ passport-form fields ~~ \n`);
-		console.log(this.props.passportForm);
+
 		const formFields = this.props.passportForm.map(this.renderFormField);
 
 		return (
 			<form onSubmit={this.handleSubmit} id="passport-form" className="form">
 				{formFields}
-				<input type="submit" />
+				<div className="form-group" style={{textAlign: "center"}}>
+					<input className="btn btn-primary" type="submit" />
+				</div>
 			</form>
 		);
 	}

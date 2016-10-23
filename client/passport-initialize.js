@@ -13,7 +13,7 @@ $(document).ready(function() {
 		throw new Error("Failed to find script");
 	}();
 
-	// get host name
+	// get hostname
 	var loc    = window.location;
 	var origin = loc.origin ? loc.origin : loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "");
 
@@ -21,16 +21,8 @@ $(document).ready(function() {
 	var iframe = document.createElement('iframe');
 	$(iframe).css({
 		"display": "none",
-		"z-index": "999999",
 		"border-width": "0",
-		"overflow-x": "hidden",
-		"overflow-y": "auto",
-		"height": "100%",
-		"position": "fixed",
-		"top": "0",
-		"left": "0",
-		"right": "0",
-		"bottom": "0"
+		"height": "500px"
 	});
 	iframe.id = 'passport-iframe';
 	iframe.width = "100%";
@@ -45,23 +37,9 @@ $(document).ready(function() {
 	var env        = script.getAttribute("data-env");
 	var form       = document.getElementById(formId);
 
-	// postMessage on 2 events:
+	// postMessage to load up react app on iframe load
 	// 1) on iframe load
-	// 2) on button click
 	$(iframe).on('load', function() {
-		console.log(`\n\n iframe loaded!`);
-	})
-
-	// attach iframe
-	document.body.appendChild(iframe);
-
-	// create button to trigger the iframe
-	var novaSimpleButton = document.createElement("button");
-	novaSimpleButton.id = "nova-simple-button";
-	novaSimpleButton.textContent = "Get your Nova Passport";
-	$(novaSimpleButton).on('click', function(e) {
-		e.preventDefault();
-		// send message to open with client information
 		iframe.style.display = "block";
 		var message = {
 			country: country,
@@ -71,30 +49,17 @@ $(document).ready(function() {
 			env: env,
 			origin: origin
 		}
-		sendMessage(message);
-	});
-
-	// postMessage to nova server
-	function sendMessage(message) {
-		// this loads up Passport react app from Nova server
 		iframe.contentWindow.postMessage(JSON.stringify(message), "http://localhost:8080");
-	}
+	})
 
-	// original document styles
-	var originalDocumentStyles= {
-		body: document.body.style.overflow,
-		html: document.documentElement.style.overflow
-	};
+	// attach iframe
+	document.body.appendChild(iframe);
 
-	var hideIframe = function() {
-		iframe.style.display = "none";
-		document.body.style.overflow=originalDocumentStyles.body;
-		document.documentElement.style.overflow=originalDocumentStyles.html;
-		window.parent.focus();
-	}
-
-	// hide iframe until we start with passport btn
-	hideIframe();
-	form.appendChild(novaSimpleButton);
+	// set up listener for response message from Nova
+	window.addEventListener("message", function(e) {
+		var data = JSON.parse(e.data);
+		$("#nova-response").append("<h1 style='color:green;text-align:center;'>"+data.message+"</h1>");
+		// $(iframe).hide();
+	});
 
 });

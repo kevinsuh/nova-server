@@ -20,12 +20,22 @@ class App extends Component {
 		window.addEventListener("message", this.handleMessage);
 	}
 
+	renderStatusMessage(response) {
+		const { message, status } = response;
+		const { origin } = this.props.passport;
+		window.parent.postMessage(JSON.stringify({message, status}), origin);
+	}
+
 	render() {
-		console.log(`\n ~~ passport data ~~ \n`);
-		console.log(this.props.passport);
+
+		const { response } = this.props.passport;
+		if (response.status) {
+			this.renderStatusMessage(response);
+		}
+
 		return (
 			<div className="app container">
-				<h1 className="title">Nova Credit Passport</h1>
+				<h1 className="main-title">Nova Credit Passport</h1>
 				<PassportForm />
 			</div>
 		);
