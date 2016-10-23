@@ -49,7 +49,9 @@ The React app loads up and makes an immediate load, using the passed in data, to
 passport-initialize.js
 reactapp
 
-
+1) heroku run bash
+2) npm run database
+3) npm run bundle
 
 -- things to address:
 why react and not jquery?
