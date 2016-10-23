@@ -57,6 +57,7 @@ how would your flow work for lender to actually get form data?
 	at the end of the flow, we would send over a public-token that represents the form response. the lender would take that public token, and request the actual data with its client+secret. we will then make sure their client+secret authenticate a LenderId, and that LenderId matches up with the public token to verify the return of data
 is this how you would store your form data in the requests?
 	no, because we support countless countries which means we would have countless different form elements, each unique to the different country. if this demo were to showcase more than just one country support, we would hold the form request data in a different table that maps to the CountryId of the reqeusts table
+	we would also have a country reference table that maps each country (lisp-case) to CountryId
 why hold IP address?
 	this meta data lets us know where the request came from, which can help in the future to track fraud
 	found with `request.connection.remoteAddress` [stack-overflow](http://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node)

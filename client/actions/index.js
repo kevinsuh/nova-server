@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { INITIALIZE_PASSPORT } from './types';
+import { INITIALIZE_PASSPORT, SUBMIT_PASSPORT } from './types';
 
 export function initializePassport(message) {
 	
@@ -13,6 +13,23 @@ export function initializePassport(message) {
 		request.then((res) => {
 			dispatch({
 				type: INITIALIZE_PASSPORT,
+				payload: res.data
+			});
+		});
+	}
+
+}
+
+// submit personal data to get your nova passport
+export function submitPassport(data) {
+
+	const request = axios.post('/api/v1/passports/form', data);
+	return (dispatch) => {
+		request.then((res) => {
+			console.log(`\n\n successful submit`);
+			console.log(res.data);
+			dispatch({
+				type: SUBMIT_PASSPORT,
 				payload: res.data
 			});
 		});

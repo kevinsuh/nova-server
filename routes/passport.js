@@ -62,24 +62,78 @@ var setPassportRoutes = function(router){
 
 	});
 
-	router.post('/api/v1/donations', function(req, res) {
+	router.post('/api/v1/passports/form', function(req, res) {
 
-		const cid = req.body.cid;
-		const amount = req.body.amount;
-		const org = req.body.org;
-		const date = new Date();
-		const cycle = 2016
+		const data       = req.body;
+		const ipAddress  = req.connection.remoteAddress;
+		const public_key = data.public_key;
 
-		models.Contribution.create({
-			date: date,
-			cid: cid,
-			cycle: cycle,
-			amount: amount,
-			org: org
+		models.Lender.find({
+			where: { public_key }
 		})
-		.then(function(contribution){
-			return res.json(contribution);
-		})
+		.then((lender) => {
+
+			if (lender) {
+
+				const LenderId = lender.id;
+				const name = data.name;
+				const email = data.email;
+				const passport_number = data.passport_number;
+				const CountryId = data.CountryId;
+				
+				// store request
+				models.Request.create({
+					LenderId: lender.id,
+					ipAddress: ipAddress,
+					CountryId: CountryId,
+					name: name,
+					email: email,
+					passport: passport_number
+				})
+				.then((request) => {
+
+					// compile the data!
+					setTimeout(() => {
+						// 2 second process of compiling data to generate passport . . .
+						const score = 760;
+						const status = 200;
+						const public_token = "test_public_token";
+						const RequestId = request.id;
+						const message = "Congratulations, you now have a Nova Credit Passport!";
+						// store response. lender will get this
+						// on server side with the public token
+						// RequestId, LenderId, status, message, public_token, creditScore
+						// creditScore represents the private meta data we have generated that is only accessible for lender server-side. Lender would make a request on server w/ public_token + client + secret in exchange for the data stored here (such as creditScore)
+						models.Response.create({
+							RequestId: RequestId,
+							LenderId: LenderId,
+							status: status,
+							message: message,
+							public_token: public_token,
+							creditScore: score
+						})
+						.then((response) => {
+							const publicResponse = {
+								public_token: public_token,
+								message: message,
+								status: status
+							}
+							return res.json(publicResponse);
+						})
+
+					}, 2000);
+
+				})
+
+
+			} else {
+				// could not find lender
+				return res.json({
+					status: 401,
+					message: "Could not find you. Are you sure you passed a valid key?"
+				})
+			}
+		});
 
 	});
 
