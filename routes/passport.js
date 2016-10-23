@@ -20,7 +20,7 @@ var setPassportRoutes = function(router){
 				// assume there is a countries table we can validate this exists for and get appropriate form content for
 				var CountryId = CountryIds[country];
 				// return custom fields for country
-				return res.json({
+				return res.status(200).json({
 					form: [
 						{
 							label: "What's your name?",
@@ -47,8 +47,7 @@ var setPassportRoutes = function(router){
 
 			} else {
 				// could not find lender
-				return res.json({
-					status: 401,
+				return res.status(401).json({
 					message: "Could not find you. Are you sure you passed a valid key?"
 				})
 			}
@@ -109,21 +108,19 @@ var setPassportRoutes = function(router){
 						.then((response) => {
 							const publicResponse = {
 								public_token: public_token,
-								message: message,
-								status: status
+								message: message
 							}
-							return res.json(publicResponse);
+							return res.status(status).json(publicResponse);
 						})
 
-					}, 2000);
+					}, 1500);
 
 				})
 
 
 			} else {
 				// could not find lender
-				return res.json({
-					status: 401,
+				return res.status(401).json({
 					message: "Could not find you. Are you sure you passed a valid key?"
 				})
 			}
@@ -131,15 +128,6 @@ var setPassportRoutes = function(router){
 
 	});
 
-	// only 5000 for trial purposes (7500 total)
-	router.get('/api/v1/candidates', function(req, res) {
-		models.Candidate.findAll({
-			limit: 5000
-		})
-		.then((candidates) => {
-			return res.json(candidates);
-		})
-	});
 }
 
 module.exports = setPassportRoutes;

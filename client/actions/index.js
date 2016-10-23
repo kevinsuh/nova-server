@@ -26,6 +26,7 @@ export function submitPassport(data) {
 	const request = axios.post('/api/v1/passports/form', data);
 	return (dispatch) => {
 		request.then((res) => {
+			console.log(res);
 			dispatch({
 				type: SUBMIT_PASSPORT,
 				payload: res.data

@@ -34,6 +34,11 @@ class App extends Component {
 			this.renderStatusMessage(response);
 		}
 
+		if (!this.props.passport.public_key) {
+			// wait until key has been identified on our server
+			return (<div></div>);
+		}
+
 		return (
 			<div className="app container">
 				<h1 className="main-title">Nova Credit Passport</h1>
