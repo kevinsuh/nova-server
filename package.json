@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/kevinsuh/nova-server",
   "engines": {
-    "node": "5.10.1",
-    "npm": "3.8.3"
+    "node": "0.10.11",
+    "npm": "1.2.25"
   }
 }
