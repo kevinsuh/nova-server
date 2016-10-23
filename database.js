@@ -1,13 +1,11 @@
-// this script seeds our sqlite db from the CSV's
+// this script creates and seeds our sqlite db
 var models = require('./models');
 
-// `force: true` will drop tables before starting up again
-// so each time you run this, data will get reset
+// `force: true` will drop tables before creating them again.
+// So each time you run this, data will reset
 models.sequelize.sync({ force: true }).then(function() {
 
-	/*
-			Create example data
-	 */
+	// example lender with test credentials
 	const lender = {
 		name: "Lender, Inc.",
 		client: "test_client",
@@ -21,6 +19,7 @@ models.sequelize.sync({ force: true }).then(function() {
 		secret: lender.secret,
 		public_key: lender.public_key
 	});
+	
 	console.log(`Database created and seeded!`);
 
 });

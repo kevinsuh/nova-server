@@ -10,17 +10,18 @@ class App extends Component {
 		this.handleMessage = this.handleMessage.bind(this);
 	}
 
+	// initialize nova app on message receive
 	handleMessage(message) {
 		const data = JSON.parse(message.data);
 		this.props.initializePassport(data);
 	}
 
+	// look for message from lender server
 	componentDidMount() {
-		// look for message from lender-server
 		window.addEventListener("message", this.handleMessage);
 	}
 
-	// upon successful form submission
+	// send message back to lender on successful form submit
 	renderStatusMessage(response) {
 		const { message, status } = response;
 		const { origin } = this.props.passport;
@@ -34,8 +35,9 @@ class App extends Component {
 			this.renderStatusMessage(response);
 		}
 
+		// don't load react app until
+		// we have received lender message with public_key
 		if (!this.props.passport.public_key) {
-			// wait until key has been identified on our server
 			return (<div></div>);
 		}
 

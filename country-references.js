@@ -1,4 +1,4 @@
-// this would be a references-table
+// this would be in a sql references-table
 const CountryIds = {
 	"south-korea": 7
 }

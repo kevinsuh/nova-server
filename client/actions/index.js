@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { INITIALIZE_PASSPORT, SUBMIT_PASSPORT } from './types';
 
+// initializes nova's passport form upon message receive
+// > country and public_key were passed in via `script` tag
 export function initializePassport(message) {
 	
 	const public_key = message["key"];
@@ -20,16 +22,17 @@ export function initializePassport(message) {
 
 }
 
-// submit personal data to get your nova passport
+// submit info to get your nova passport
 export function submitPassport(data) {
-
 	const request = axios.post('/api/v1/passports/form', data);
 	return (dispatch) => {
 		request.then((res) => {
-			console.log(res);
 			dispatch({
 				type: SUBMIT_PASSPORT,
-				payload: res.data
+				payload: {
+					...res.data,
+					status: res.status
+				}
 			});
 		});
 	}

@@ -14,6 +14,9 @@ class PassportForm extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 
+		// `this.props.passport` holds client's `pubilc_key`
+		// and `country`. We use that on backend to
+		// validate and handle data compilation
 		let formData = {};
 		this.props.passportForm.fields.map((passportField) => {
 			const { input } = passportField;
@@ -28,11 +31,10 @@ class PassportForm extends Component {
 		this.props.submitPassport(formData);
 	}
 
-
+	// `data` holds the info we need to generically
+	// generate form fields
 	renderFormField(data, i) {
-
 		const { label, type, input } = data;
-
 		return (
 			<div key={i} className="form-group">
 				<label className="label form-label" htmlFor={input}>{label}</label>

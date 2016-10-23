@@ -1,10 +1,15 @@
-// this gets run in lender's frame
+// This is the js that runs in lender's window.
+// Passed through via `script` tag.
 $(document).ready(function() {
 
-	const novaSource = "http://localhost:8080"; // local
-	// const novaSource = "https://kevins-nova-server.herokuapp.com"; // production
+	// nova sources:
+	// > - dev: `http://localhost:8080`
+	// > - prod: `https://kevins-nova-server.herokuapp.com`
+	const novaSource = "http://localhost:8080";
 
-	// 1. find the script tag
+	// find script to take `data` attributes from
+	// > - data-key
+	// > - data-country
 	var script = function() {
 		var e = document.getElementsByTagName("script");
 		for (var i = 0; i < e.length; i++) {
@@ -15,11 +20,17 @@ $(document).ready(function() {
 		throw new Error("Failed to find script");
 	}();
 
-	// get hostname
+	var country = script.getAttribute("data-country");
+	var key = script.getAttribute("data-key");
+
+	// hostname allows us to respond back later
+	// this will be lender source
+	// > - dev: `http://localhost:3000`
+	// > - prod: `https://kevins-lender-server.herokuapp.com`
 	var loc    = window.location;
 	var origin = loc.origin ? loc.origin : loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "");
 
-	// create an iframe
+	// this is iframe containing nova passport form
 	var iframe = document.createElement('iframe');
 	$(iframe).css({
 		"display": "none",
@@ -30,12 +41,7 @@ $(document).ready(function() {
 	iframe.width = "100%";
 	iframe.src = novaSource;
 
-	// get form information
-	var country    = script.getAttribute("data-country");
-	var key        = script.getAttribute("data-key");
-
-	// postMessage to load up react app on iframe load
-	// 1) on iframe load
+	// react app only initializes after receiving this message
 	$(iframe).on('load', function() {
 		iframe.style.display = "block";
 		var message = {
@@ -44,15 +50,17 @@ $(document).ready(function() {
 			origin: origin
 		}
 		iframe.contentWindow.postMessage(JSON.stringify(message), novaSource);
-	})
+	});
 
-	// attach iframe
 	document.body.appendChild(iframe);
 
-	// set up listener for response message from Nova
+	// listener for later response message from nova source
+	// > we make sure it is from `novaSource`
 	window.addEventListener("message", function(e) {
-		var data = JSON.parse(e.data);
-		$("#nova-response").append("<h1 style='color:green;text-align:center;'>"+data.message+"</h1>");
+		if (e.origin == novaSource) {
+			var data = JSON.parse(e.data);
+			$("#nova-response").append("<h1 style='color:green;text-align:center;'>"+data.message+"</h1>");
+		}
 	});
 
 });
