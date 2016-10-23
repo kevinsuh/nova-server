@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
+var favicon = require('serve-favicon');
 
 var app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // heroku doesn't work with __dirname
 process.env.PWD = process.cwd();
 app.use(express.static(path.join(process.env.PWD, './client')));
+app.use(favicon(path.join(process.env.PWD, 'client', 'favicon.ico')));
 
 // set routes
 require('./routes')(app);
