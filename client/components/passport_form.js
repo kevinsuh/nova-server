@@ -15,7 +15,7 @@ class PassportForm extends Component {
 		e.preventDefault();
 
 		let formData = {};
-		this.props.passportForm.map((passportField) => {
+		this.props.passportForm.fields.map((passportField) => {
 			const { input } = passportField;
 			formData[input] = this.refs[input].value;
 		});
@@ -24,9 +24,10 @@ class PassportForm extends Component {
 			...this.props.passport
 		}
 
+		// note: further update would make sure data is valid (ex. email address format)
 		this.props.submitPassport(formData);
-
 	}
+
 
 	renderFormField(data, i) {
 
@@ -43,7 +44,7 @@ class PassportForm extends Component {
 
 	render() {
 
-		const formFields = this.props.passportForm.map(this.renderFormField);
+		const formFields = this.props.passportForm.fields.map(this.renderFormField);
 
 		return (
 			<form onSubmit={this.handleSubmit} id="passport-form" className="form">

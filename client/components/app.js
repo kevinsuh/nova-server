@@ -16,10 +16,11 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		// this is what receives message from lender-server
+		// look for message from lender-server
 		window.addEventListener("message", this.handleMessage);
 	}
 
+	// upon successful form submission
 	renderStatusMessage(response) {
 		const { message, status } = response;
 		const { origin } = this.props.passport;
@@ -28,7 +29,7 @@ class App extends Component {
 
 	render() {
 
-		const { response } = this.props.passport;
+		const { response } = this.props.passportForm;
 		if (response.status) {
 			this.renderStatusMessage(response);
 		}
@@ -42,9 +43,10 @@ class App extends Component {
 	}
 }
 
-function mapStateToProps({ passport }) {
+function mapStateToProps({ passport, passportForm }) {
 	return {
-		passport
+		passport,
+		passportForm
 	}
 }
 

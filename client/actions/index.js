@@ -5,11 +5,10 @@ export function initializePassport(message) {
 	
 	const public_key = message["key"];
 	const country    = message["country"];
-	const env        = message["env"];
 	const origin     = message["origin"];
 
 	// handle ajax w/ redux-thunk
-	const request = axios.get('/api/v1/passports/form', { params: { public_key, country, env, origin } });
+	const request = axios.get('/api/v1/passports/form', { params: { public_key, country, origin } });
 	return (dispatch) => {
 		request.then((res) => {
 			dispatch({

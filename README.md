@@ -44,6 +44,11 @@ I use Sequelize as an ORM. This streamlines the process of creating our initial 
 
 The React app loads up and makes an immediate load, using the passed in data, to create the customized passport form.
 
+-- note that we need to change sources in:
+<!-- <script src -->
+passport-initialize.js
+reactapp
+
 
 
 -- things to address:

@@ -1,9 +1,11 @@
 // this gets run in lender's frame
 $(document).ready(function() {
 
+	const novaSource = "http://localhost:8080"; // local
+	// const novaSource = "https://kevins-nova-server.herokuapp.com"; // production
+
 	// 1. find the script tag
 	var script = function() {
-		// i know that i'm here now
 		var e = document.getElementsByTagName("script");
 		for (var i = 0; i < e.length; i++) {
 			if (/passport-initialize[.]js$/.test(e[i].src)) {
@@ -26,16 +28,11 @@ $(document).ready(function() {
 	});
 	iframe.id = 'passport-iframe';
 	iframe.width = "100%";
-	iframe.src = "http://localhost:8080";
+	iframe.src = novaSource;
 
 	// get form information
 	var country    = script.getAttribute("data-country");
-	var formId     = script.getAttribute("data-form-id");
 	var key        = script.getAttribute("data-key");
-	var clientName = script.getAttribute("data-client-name");
-	var product    = script.getAttribute("data-product");
-	var env        = script.getAttribute("data-env");
-	var form       = document.getElementById(formId);
 
 	// postMessage to load up react app on iframe load
 	// 1) on iframe load
@@ -44,12 +41,9 @@ $(document).ready(function() {
 		var message = {
 			country: country,
 			key: key,
-			clientName: clientName,
-			product: product,
-			env: env,
 			origin: origin
 		}
-		iframe.contentWindow.postMessage(JSON.stringify(message), "http://localhost:8080");
+		iframe.contentWindow.postMessage(JSON.stringify(message), novaSource);
 	})
 
 	// attach iframe
@@ -59,7 +53,6 @@ $(document).ready(function() {
 	window.addEventListener("message", function(e) {
 		var data = JSON.parse(e.data);
 		$("#nova-response").append("<h1 style='color:green;text-align:center;'>"+data.message+"</h1>");
-		// $(iframe).hide();
 	});
 
 });

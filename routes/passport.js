@@ -8,15 +8,7 @@ var setPassportRoutes = function(router){
 
 		const public_key = req.query["public_key"];
 		const country    = req.query["country"];
-		const env        = req.query["env"];
 		const origin     = req.query["origin"];
-
-		if (env !== "test") {
-			return res.json({
-				status: 401,
-				message: "This currently only works with test mode"
-			})
-		}
 
 		models.Lender.find({
 			where: { public_key }
