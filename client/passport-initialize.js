@@ -1,8 +1,8 @@
 // this gets run in lender's frame
 $(document).ready(function() {
 
-	const novaSource = "http://localhost:8080"; // local
-	// const novaSource = "https://kevins-nova-server.herokuapp.com"; // production
+	// const novaSource = "http://localhost:8080"; // local
+	const novaSource = "https://kevins-nova-server.herokuapp.com"; // production
 
 	// 1. find the script tag
 	var script = function() {
