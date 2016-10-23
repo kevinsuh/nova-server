@@ -9,7 +9,8 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, './client')));
+// heroku doesn't work with __dirname
+app.use(express.static(path.join(process.env.PWD, './client')));
 
 // set routes
 require('./routes')(app);
