@@ -57,8 +57,11 @@ $(document).ready(function() {
 	// listener for later response message from nova source
 	// > we make sure it is from `novaSource`
 	window.addEventListener("message", function(e) {
-		if (e.origin == novaSource) {
-			var data = JSON.parse(e.data);
+		if (e.origin != novaSource) {
+			return;
+		}
+		var data = JSON.parse(e.data);
+		if (data.status == 200) {
 			$("#nova-response").append("<h1 style='color:green;text-align:center;'>"+data.message+"</h1>");
 		}
 	});
