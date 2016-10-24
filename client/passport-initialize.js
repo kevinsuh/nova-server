@@ -5,7 +5,7 @@ $(document).ready(function() {
 	// nova sources:
 	// > - dev: `http://localhost:8080`
 	// > - prod: `https://kevins-nova-server.herokuapp.com`
-	const novaSource = "http://localhost:8080";
+	const novaSource = "https://kevins-nova-server.herokuapp.com";
 
 	// find script to take `data` attributes from
 	// > - data-key
