@@ -60,13 +60,13 @@ The lender server runs `passport-initialize.js`, which creates an iframe and loa
 On form submit, Nova's server will take the values and fake a 500ms data compilation. We fake-generate a `creditScore` value to represent the private data that we get. We store this `creditStore` along with other respones values, and send back a `public_token` and `message`.
 
 4. **Persistence:**
-Our `requests` table holds the `LenderId` that associates with `public_key`. It also holds the IP address of the request, to look back in case of fraud. The `responses` table holds the `status` of the data compilation (always 200 in this demo), as well as `public_token` and `creditScore`. The credit score represents private data that we do not want to send over the browser. Instead of sending back private data, **we send back a public token, which the lender will then have to exchange server-side** (along with their `client` and secret) for the private data. We use [Sequelize](https://github.com/sequelize/sequelize) to speed up our implementation of the DB.
+Our `requests` table holds the `LenderId` that associates with `public_key`. It also holds the IP address of the request, to look back in case of fraud. The `responses` table holds the `status` of the data compilation (always `200` in this demo), as well as `public_token` and `creditScore`. The credit score represents private data that we do not want to send over the browser. **Instead of sending back private data, we send back a public token, which the lender will then have to exchange server-side** (along with their `client` and secret) for the private data. We use [Sequelize](https://github.com/sequelize/sequelize) to speed up our implementation of the DB.
 
 5. **Parent-child DOM Interaction:**
-We have a redux state `PassportForm` with a `{ response: { status } }` property that initializes as `null`. It gets updated with the status (`200`) on valid form submission. When this happens, our app sends a public `message` to the lender via `window.parent.postMessage`. We added an `eventListener` to the lender's browser in our `initialize-passport.js` file, so that the lender's webpage can respond to this. The message ("Congratulations, you now have a Nova Credit Passport!") will only display on a `200` status.
+We have a redux state `PassportForm` with a `{ response: { status } }` property that initializes as `null`. It gets updated with the `200` status on valid form submission. When this happens, our app sends a public message to the lender via `window.parent.postMessage`. We added an eventListener to the lender's browser in our JS file, so that the lender's webpage can respond to this. The message ("Congratulations, you now have a Nova Credit Passport!") will only display on a `200` status.
 
 6. **Comment the code:**
-We use `docco` and the HTML renders of our code can be found in `/docs`.
+We use `docco` and the HTML renders of our code can be found in `docs`.
 
 7. **Create small test suites:**
 We created some tests using `mocha` and `supertest`. Instructions on how to test can be found above. The main things we test are the API calls. We want to make sure the React app properly generates a form on valid `public_key`, and that we handle the form submission.
