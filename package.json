@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node index.js",
     "bundle": "webpack",
-    "postinstall": "webpack -p --define process.env.NODE_ENV='\"production\"'",
+    "postinstall": "node database.js && webpack -p --define process.env.NODE_ENV='\"production\"'",
     "bundle:watch": "webpack --progress --color --watch",
     "database": "node database.js"
   },
