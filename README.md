@@ -35,7 +35,7 @@ To run this locally, you will also need to go to `client/passport-initialize.js`
 ```
 npm run start
 ```
-You can now access the app at `localhost:8080`, but it will be a blank page. This is because **this app is an embeddable react app that only renders on the lender's server** via [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). You will need to next follow instructions to install the [lender-server](https://github.com/kevinsuh/lender-server)). Once this is done, you will need both servers running locally. You can then go to the lender's server (at `localhost:3000`) to see this app's embedded form.
+You can now access the app at `localhost:8080`, but it will be a blank page. **This is because the react app only renders on the lender's server** via [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). To get the full experience, you will need to install the [lender-server](https://github.com/kevinsuh/lender-server)) and have both servers running locally. You can then go to the lender's server (at `localhost:3000`) to see this app's embedded form.
 
 ## Testing
 We use [mocha](https://github.com/mochajs/mocha) and [supertest](https://github.com/visionmedia/supertest) to run our tests. First, install `mocha` as global package:
