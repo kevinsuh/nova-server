@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var path = require('path');
 
-// Rest API
+// REST API
 require(path.join(__dirname, './', 'passport'))(router);
 
 // Nova's react app in Lender's iframe

@@ -92,7 +92,7 @@ var setPassportRoutes = function(router){
 				})
 				.then((request) => {
 
-					// fake 1.5s data compilation
+					// fake 500ms data compilation
 					setTimeout(() => {
 						const score = 760;
 						const status = 200;
@@ -120,7 +120,7 @@ var setPassportRoutes = function(router){
 							return res.status(status).json(publicResponse);
 						})
 
-					}, 1500);
+					}, 500);
 
 				})
 

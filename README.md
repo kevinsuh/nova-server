@@ -68,3 +68,8 @@ is this how you would store your form data in the requests?
 why hold IP address?
 	this meta data lets us know where the request came from, which can help in the future to track fraud
 	found with `request.connection.remoteAddress` [stack-overflow](http://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node)
+
+to test...
+install mocha as global package. this lets you run mocha test suites seamlessly.
+we store tests in `/test
+`npm install -g mocha`

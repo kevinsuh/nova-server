@@ -14,6 +14,11 @@
     "bundle:watch": "webpack --progress --color --watch",
     "database": "node database.js"
   },
+  "devDependencies": {
+    "mocha": "^3.1.2",
+    "should": "^11.1.1",
+    "supertest": "^2.0.1"
+  },
   "dependencies": {
     "axios": "^0.15.2",
     "babel-core": "^6.2.1",
